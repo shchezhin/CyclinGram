@@ -30,13 +30,11 @@ public class MainActivity extends Activity {
         //checking the stored Strava API token. if no token, requesting it
         if(getStoredToken().length()!=40){
             authStrava();
-        } else{
-            if(internetCheck()){
+        } else {
+            if(internetCheck()) {
                 gettingStats();
             }
         }
-
-
     }
 
     public void gettingStats(){
@@ -83,10 +81,8 @@ public class MainActivity extends Activity {
                 if (response.isSuccessful()) {
                     if(response.body().access_token != null){
                         saveToken(response.body().access_token);
+                        gettingStats();
                     }
-
-                    gettingStats();
-
                 }
             }
             @Override
@@ -103,17 +99,15 @@ public class MainActivity extends Activity {
         Call<RequestToken> requestToken(@Field("client_id") int client_id,
                                     @Field("client_secret") String client_secret,
                                     @Field("code") String code);
-
     }
 
-    public boolean internetCheck(){
+    public boolean internetCheck() {
         InternetCheck check = new InternetCheck();
         boolean inet = false;
         try{
             inet = check.execute().get();
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.d(TAG, "authStrava: " + e.getMessage());
-
         }
             if(!inet){Toast toast = Toast.makeText(getApplicationContext(),
                     "No internet connection",  Toast.LENGTH_SHORT);

@@ -24,17 +24,13 @@ public class Requester {
         for (int i=0;i<thisWeek.size();i++){
             thisKms = thisKms + thisWeek.get(i).distance;
             thisTime = thisTime + thisWeek.get(i).moving_time;
-//            Log.d(TAG, "time: " + thisWeek.get(i).moving_time);
-//            Log.d(TAG, "kms: " + thisWeek.get(i).distance);
         }
 
         thisKms=thisKms/1000;
         thisTime=thisTime/3600;
 
-
         output = String.format("%.2f", thisKms/thisTime );
 
         return output;
     }
-
 }
