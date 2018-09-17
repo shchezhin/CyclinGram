@@ -8,4 +8,5 @@ public class ActivityAPI {
     public String type;
     public String workout_type;
     public boolean commute;
+    public String start_date_local;
 }

@@ -29,7 +29,11 @@ public class Requester {
         thisKms=thisKms/1000;
         thisTime=thisTime/3600;
 
+        if(thisKms != 0){
         output = String.format("%.2f", thisKms/thisTime );
+        } else {
+            output = "No rides";
+        }
 
         return output;
     }
