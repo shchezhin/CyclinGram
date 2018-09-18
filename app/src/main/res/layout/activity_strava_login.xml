@@ -13,5 +13,52 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </WebView>
+
+    <ImageButton
+        android:id="@+id/stravaBtn"
+        android:layout_width="109dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/str"
+        app:layout_constraintBottom_toBottomOf="@+id/loginWebview"
+        app:layout_constraintEnd_toEndOf="@+id/loginWebview"
+        app:layout_constraintStart_toStartOf="@+id/loginWebview"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.45" />
+
+    <TextView
+        android:id="@+id/tv_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Please log in with your"
+        app:layout_constraintBottom_toTopOf="@+id/stravaBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/loginWebview"
+        app:layout_constraintEnd_toEndOf="@+id/loginWebview"
+        app:layout_constraintStart_toStartOf="@+id/loginWebview"
+        app:layout_constraintTop_toTopOf="@+id/loginWebview"
+        app:layout_constraintVertical_bias="0.45" />
+
 </android.support.constraint.ConstraintLayout>
