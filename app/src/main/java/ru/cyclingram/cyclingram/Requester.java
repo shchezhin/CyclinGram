@@ -8,8 +8,8 @@ public class Requester {
 
     private static final String TAG = "mytag";
 
-    public String request (String after, String before, String token){
-        String output = "";
+    public float request (String after, String before, String token){
+
 
         AsyncRetroStats requester = new AsyncRetroStats();
         requester.execute(after,before,token); //Strings: after, before, token
@@ -29,10 +29,9 @@ public class Requester {
         thisKms=thisKms/1000;
         thisTime=thisTime/3600;
 
+        float output=0;
         if(thisKms != 0){
-        output = String.format("%.2f", thisKms/thisTime );
-        } else {
-            output = "No rides";
+        output = Float.valueOf( String.format("%.1f", thisKms/thisTime) );
         }
 
         return output;

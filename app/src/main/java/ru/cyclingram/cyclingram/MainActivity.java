@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MainActivity extends Activity {
@@ -18,6 +20,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG, "onCreate: ");
 
         //checking the stored Strava API token. if no token, requesting it
         if(getStoredToken().length()!=40){
@@ -30,22 +33,32 @@ public class MainActivity extends Activity {
     }
 
     public void gettingStats(){
+        Log.d(TAG, "gettingStats: ");
+        ArrayList<Block> blocks = new ArrayList<>();
+        Requester myRequester = new Requester();
 
-            Requester myRequester = new Requester();
-            String currWeekAvg = myRequester.request(getWeekStartTimestamp(), getCurrentTimestamp(), getStoredToken());
-            String prevWeekAvg = myRequester.request(String.valueOf(Integer.parseInt(getWeekStartTimestamp()) - 604800), getWeekStartTimestamp(), getStoredToken());
-            TextView thisWeekTV = findViewById(R.id.tv_kms);
-            TextView prevWeekTV = findViewById(R.id.tv_kms2);
-            TextView txt = findViewById(R.id.textView3);
-            thisWeekTV.setText(currWeekAvg);
-            prevWeekTV.setText(prevWeekAvg);
-            if(Float.valueOf(currWeekAvg) >= Float.valueOf(prevWeekAvg)) {
-                String texxt = "This week I am " + String.format("%.1f", (100 * Float.valueOf(currWeekAvg) / Float.valueOf(prevWeekAvg) - 100)) + "% faster than previous week.";
-                txt.setText(texxt);
-            } else {
-                String texxt = "This week I am " + String.format("%.1f", (100 * Float.valueOf(prevWeekAvg) / Float.valueOf(currWeekAvg) - 100)) + "% slower than previous week.";
-                txt.setText(texxt);
-            }
+        float thisWeekAvg = myRequester.request(getWeekStartTimestamp(), getCurrentTimestamp(), getStoredToken());
+        float prevWeekAvg = myRequester.request(String.valueOf(Integer.parseInt(getWeekStartTimestamp()) - 604800), getWeekStartTimestamp(), getStoredToken());
+        Block week = new Block();
+        week.setPercent(thisWeekAvg/prevWeekAvg);
+        week.setTime("week");
+
+        blocks.add(week);
+
+        float thisMonthAvg = myRequester.request(getMonthStartTimestamp(), getCurrentTimestamp(), getStoredToken());
+        float prevMonthAvg = myRequester.request(getPrevMonthStartTimestamp(), getMonthStartTimestamp(), getStoredToken());
+        //Log.d(TAG, "thMavg=" + thisMonthAvg + " prMavg=" + prevMonthAvg);
+        Block month = new Block();
+        month.setPercent(thisMonthAvg/prevMonthAvg);
+        month.setTime("month");
+
+        blocks.add(month);
+
+        RecyclerView rvMain = findViewById(R.id.rvMain);
+        LinearLayoutManager lm = new LinearLayoutManager(getApplicationContext());
+        rvMain.setLayoutManager(lm);
+        AdapterRecyclerMain adapter = new AdapterRecyclerMain(getApplicationContext(), blocks);
+        rvMain.setAdapter(adapter);
 
     }
 
@@ -117,6 +130,22 @@ public class MainActivity extends Activity {
         cal.set(Calendar.DAY_OF_MONTH, 1);
         Long timestamp = cal.getTimeInMillis() / 1000;
 
+        return String.valueOf(timestamp);
+    }
+    public String getPrevMonthStartTimestamp(){ //getting the timestamp of the beginning of the month
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.clear(Calendar.MINUTE);
+        cal.clear(Calendar.SECOND);
+        cal.clear(Calendar.MILLISECOND);
+        cal.clear(Calendar.AM_PM);
+
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.MONTH, cal.get(Calendar.MONTH)-1);
+        Long timestamp = cal.getTimeInMillis() / 1000;
+
+        Log.d(TAG, "getPrevMonthStartTimestamp: " + String.valueOf(timestamp));
         return String.valueOf(timestamp);
     }
 
