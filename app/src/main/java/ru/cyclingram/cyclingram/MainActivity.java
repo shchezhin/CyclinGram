@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,7 +58,12 @@ public class MainActivity extends Activity {
         RecyclerView rvMain = findViewById(R.id.rvMain);
         LinearLayoutManager lm = new LinearLayoutManager(getApplicationContext());
         rvMain.setLayoutManager(lm);
-        AdapterRecyclerMain adapter = new AdapterRecyclerMain(getApplicationContext(), blocks);
+        AdapterRecyclerMain adapter = new AdapterRecyclerMain(getApplicationContext(), blocks, new AdapterRecyclerMain.AdapterListener(){
+            @Override
+            public void btnOnClick(View v, int position) {
+                Log.d(TAG, "btnOnClick: " + position);
+            }
+        });
         rvMain.setAdapter(adapter);
 
     }
