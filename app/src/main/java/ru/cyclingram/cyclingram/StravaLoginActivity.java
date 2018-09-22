@@ -41,19 +41,17 @@ public class StravaLoginActivity extends Activity {
         stravaBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clicked();
+                startAuth();
             }
         });
     }
 
-    private void clicked(){
-
+    private void startAuth() {
         pb.setVisibility(View.VISIBLE);
         stravaBtn.setVisibility(View.INVISIBLE);
         tv_btn.setVisibility(View.INVISIBLE);
 
         //going to Strava auth URL and catching the response code
-
         final HttpUrl authorizeUrl = HttpUrl.parse("https://www.strava.com/oauth/authorize") //
                 .newBuilder() //
                 .addQueryParameter("client_id", "25912")
@@ -94,7 +92,6 @@ public class StravaLoginActivity extends Activity {
     private void auth(String code) {
 
         //getting the received code and requesting a token via Retrofit
-
         Retrofit stravaRetrofit = new Retrofit.Builder()
                 .baseUrl("https://www.strava.com/oauth/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -121,7 +118,6 @@ public class StravaLoginActivity extends Activity {
     }
 
     public interface StravaApi {
-
         @POST("token")
         @FormUrlEncoded
         Call<RequestToken> requestToken(@Field("client_id") int client_id,
@@ -129,11 +125,11 @@ public class StravaLoginActivity extends Activity {
                                         @Field("code") String code);
     }
 
-    public void saveToken(String token){
+    public void saveToken(String token) {
         SharedPreferences appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(this.getApplicationContext());
         SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
         prefsEditor.putString("StravaToken", token);
-        prefsEditor.commit();
+        prefsEditor.apply();
     }
 }

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CyclinGram</string>
+    <string name="create">Create Pic</string>
+    <string name="savePic">Save Pic</string>
 </resources>
