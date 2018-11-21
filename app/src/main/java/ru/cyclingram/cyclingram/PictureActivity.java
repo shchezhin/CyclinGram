@@ -82,66 +82,9 @@ public class PictureActivity extends Activity {
         Canvas canvas = new Canvas(newBmp);
         canvas.drawBitmap(bmp,0,0,null);
 
-        Typeface font = Typeface.createFromAsset(getAssets(), "MyriadPro-Bold.ttf");
-
-        //Text1
-
-        Paint paintText1 = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paintText1.setColor(Color.rgb(128,128,0));
-        paintText1.setTextSize(600);
-        paintText1.setStyle(Paint.Style.FILL_AND_STROKE);
-        paintText1.setTypeface(font);
-        Rect textRect = new Rect();
-        paintText1.getTextBounds(splittedText[0], 0,splittedText[0].length(),textRect);
-
-        // float shadow = 10;
-        while (textRect.width() > canvas.getWidth()-(paintText1.getTextSize())) {
-            paintText1.setTextSize(paintText1.getTextSize()-2);
-            paintText1.getTextBounds(splittedText[0], 0, splittedText[0].length(), textRect);
-            //shadow = paintText.getTextSize()/10;
-        }
-        //paintText.setShadowLayer(shadow,shadow,shadow, Color.BLACK);
-        canvas.drawText(splittedText[0], (bmp.getWidth()/2)-(textRect.width()/2),bmp.getHeight()/2 - (textRect.height() + (textRect.height()/2)), paintText1);
-
-        //Text2
-
-        Paint paintText2 = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paintText2.setColor(Color.rgb(128,128,0));
-        paintText2.setTextSize(600);
-        paintText2.setStyle(Paint.Style.FILL_AND_STROKE);
-        paintText2.setTypeface(font);
-        Rect textRect2 = new Rect();
-        paintText2.getTextBounds(splittedText[1], 0,splittedText[1].length(),textRect2);
-
-        // float shadow = 10;
-        while (textRect2.width() > canvas.getWidth()-(paintText2.getTextSize())) {
-            paintText2.setTextSize(paintText2.getTextSize()-2);
-            paintText2.getTextBounds(splittedText[1], 0, splittedText[1].length(), textRect2);
-            //shadow = paintText.getTextSize()/10;
-        }
-        //paintText.setShadowLayer(shadow,shadow,shadow, Color.BLACK);
-        canvas.drawText(splittedText[1], (bmp.getWidth()/2)-(textRect2.width()/2),bmp.getHeight()/2, paintText2);
-
-        //Text3
-
-        Paint paintText3 = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paintText3.setColor(Color.rgb(128,128,0));
-        paintText3.setTextSize(600);
-        paintText3.setStyle(Paint.Style.FILL_AND_STROKE);
-        paintText3.setTypeface(font);
-        Rect textRect3 = new Rect();
-        paintText3.getTextBounds(splittedText[2], 0,splittedText[2].length(),textRect3);
-
-        // float shadow = 10;
-        while (textRect3.width() > canvas.getWidth()-(paintText3.getTextSize())) {
-            paintText3.setTextSize(paintText3.getTextSize()-2);
-            paintText3.getTextBounds(splittedText[2], 0, splittedText[2].length(), textRect3);
-            //shadow = paintText.getTextSize()/10;
-        }
-        //paintText.setShadowLayer(shadow,shadow,shadow, Color.BLACK);
-        canvas.drawText(splittedText[2], (bmp.getWidth()/2)-(textRect3.width()/2),bmp.getHeight()/2 + (textRect3.height() + (textRect.height()/2)), paintText3);
-
-
+        paintMyString(splittedText[0],0,canvas);
+        paintMyString(splittedText[1],1,canvas);
+        paintMyString(splittedText[2],2,canvas);
 
         //showing created image to user
         iv.setImageBitmap(newBmp);
@@ -161,5 +104,33 @@ public class PictureActivity extends Activity {
                 finish();
             }
         });
+    }
+
+    public void paintMyString(String text, int position, Canvas canvas) {
+
+        Typeface font = Typeface.createFromAsset(getAssets(), "MyriadPro-Bold.ttf");
+
+        Paint paintText0 = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paintText0.setColor(Color.rgb(128,128,0));
+        paintText0.setTextSize(800);
+        paintText0.setStyle(Paint.Style.FILL_AND_STROKE);
+        paintText0.setTypeface(font);
+        Rect textRect0 = new Rect();
+        paintText0.getTextBounds(text, 0,text.length(),textRect0);
+
+        while (textRect0.width() > canvas.getWidth()-(paintText0.getTextSize())) {
+            paintText0.setTextSize(paintText0.getTextSize()-1);
+            paintText0.getTextBounds(text, 0, text.length(), textRect0);
+        }
+
+        Log.d(TAG, "font size: " + paintText0.getTextSize());
+
+        int vertMove=0;
+        if(position==0){
+            vertMove = -(3*textRect0.height()/2);
+        } else if (position==2) {
+            vertMove = (3*textRect0.height()/2);
+        }
+        canvas.drawText(text, (bmp.getWidth()/2)-(textRect0.width()/2),bmp.getHeight()/2 + vertMove, paintText0);
     }
 }
