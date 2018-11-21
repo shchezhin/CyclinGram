@@ -74,7 +74,7 @@ public class MainActivity extends Activity {
 
     public void createPic(int position) {
         Intent intentPicActivity = new Intent(this, PictureActivity.class);
-        intentPicActivity.putExtra("text", blocks.get(position).getText());
+        intentPicActivity.putExtra("text", blocks.get(position).getTextForSplit());
         startActivity(intentPicActivity);
     }
 
